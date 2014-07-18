@@ -1,15 +1,27 @@
 import json
 import collections
+import pymongo
 # import matplotlib.pyplot as plt 
 
-def read_the_dataset(the_dataset_file):
-    tweets = list()
+def read_the_dataset(the_dataset_file, limitation):
     header = True
-    with file(the_dataset_file,'r') as infile:
+    down, up = limitation
+    i = 0
+    client = pymongo.MongoClient()
+    db = client['test']
+    collection = db['recsys']
+    recsys = db.recsys
+    with open(the_dataset_file,'r') as infile:
         for line in infile:
             if header:
                 header = False
                 continue # Skip the CSV header line
+            if i < down:
+                i = i + 1
+                continue
+            if i >= up:
+                break
+            i = i + 1
             line_array = line.strip().split(',')
             user_id = int(line_array[0])
             item_id = int(line_array[1])
@@ -20,8 +32,11 @@ def read_the_dataset(the_dataset_file):
             # Use the json_obj to easy access the tweet data
             # e.g. the tweet id: json_obj['id']
             # e.g. the retweet count: json_obj['retweet_count']
-            tweets.append((user_id, item_id, rating, scraping_time, json_obj))
-    return tweets
+            json_obj['user_id'] = user_id
+            json_obj['item_id'] = item_id
+            json_obj['rating'] = rating
+            json_obj['scraping_time'] = scraping_time
+            recsys.insert(json_obj)
    
 def get_users_set(tweets_list):
     users_set = set()
@@ -66,17 +81,15 @@ if __name__ == "__main__":
     filename = raw_input("Please input the filename: ")
     if filename == '':
         filename = 'read-test.dat'
-    tweets_list = read_the_dataset(filename)
-    # print tweets_list[0][4]['id']
-    # print tweets_list[0]
-    # print tweets_list 
-    # print type(tweets_list)
-    users_set = get_users_set(tweets_list)
-    print users_set
-    grouped_tweets = get_grouped_users_tweets(users_set, tweets_list)
-    get_time_order_users_tweets(grouped_tweets, tweets_list)
-    print grouped_tweets
-    # x = range[5]
-    # y = []
-    # n = [17310, 17745, 17985, 18219, 21081]
-    # y = [i.['favorite_count']+tweets_list[][4][i].['retweet_count'] for i in n]
+    slices = [(i*10000, (i+1)*10000) for i in range(18)]
+    # print slices
+    for i in slices:
+        read_the_dataset(filename, i)
+        print "read limitation:", i, "OK!"
+    # read_the_dataset(filename, (0, 4))
+    # users_set = get_users_set(tweets_list)
+    # print users_set
+    # grouped_tweets = get_grouped_users_tweets(users_set, tweets_list)
+    # get_time_order_users_tweets(grouped_tweets, tweets_list)
+    # print grouped_tweets
+    
