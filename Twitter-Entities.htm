@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)https://dev.twitter.com/docs/platform-objects/entities -->
+<html class="js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Entities | Twitter Developers</title>
+<script type="text/javascript" async="" src="./Twitter-Entities_files/ga.js"></script><script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+<script src="./Twitter-Entities_files/widgets.js" type="text/javascript"></script><style type="text/css"></style>
+<link rel="shortcut icon" href="https://dev.twitter.com/sites/all/themes/twitter_commons/favicon.ico" type="image/x-icon">
+<meta name="keywords" content="Tweets,Entities,field descriptions,finding links,finding media,hashtags,Mentions,t.co">
+<meta name="description" content="Entities provide metadata and additional contextual information about content posted on Twitter. Entities are never divorced from the content they describe. Entities are instrumental in resolving URLs.">
+<meta name="twitter:card" content="photo">
+<meta name="twitter:creator" content="@episod">
+<meta name="twitter:description" content="Entities provide metadata and additional contextual information about content posted on Twitter. Entities are never divorced from the content they describe. Entities are instrumental in resolving URLs.">
+<meta name="twitter:image" content="https://dev.twitter.com/sites/default/files/images_platform_object/yellow_flycatcher.jpg">
+<meta name="twitter:site" content="@twitterapi">
+<meta name="twitter:title" content="Entities - Field Guide to Twitter Platform Objects">
+<meta name="twitter:url" content="https://dev.twitter.com/docs/platform-objects/entities">
+<link type="text/css" rel="stylesheet" media="all" href="./Twitter-Entities_files/css_27cf7b064391c5e348614a1173b8c057.css">
+<script type="text/javascript" src="./Twitter-Entities_files/js_3172137e276af95ccbcc7ef19efd4885.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","googleanalytics":{"trackOutgoing":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|avi|csv|doc|exe|flv|gif|gz|jpe?g|js|mp(3|4|e?g)|mov|pdf|phps|png|ppt|rar|sit|tar|torrent|txt|wma|wmv|xls|xml|zip"},"chartbeat":{"uid":42587,"domain":"dev.twitter.com"},"extlink":{"extTarget":"_blank","extClass":"ext","extSubdomains":0,"extExclude":"(twitter\\.com\/intent\/)|(apps\\.twitter\\.com)","extInclude":"","extAlert":0,"extAlertText":"","mailtoClass":"mailto"},"twitter_autosuggest":{"path":"\/twitter_autosuggest_callback"},"AjaxLoad":{"css":["\/modules\/book\/book.css","\/modules\/node\/node.css","\/modules\/system\/defaults.css","\/modules\/system\/system.css","\/modules\/system\/system-menus.css","\/modules\/user\/user.css","\/profiles\/drupal_commons\/modules\/contrib\/cck\/theme\/content-module.css","\/profiles\/drupal_commons\/modules\/contrib\/ctools\/css\/ctools.css","\/profiles\/drupal_commons\/modules\/contrib\/date\/date.css","\/profiles\/drupal_commons\/modules\/contrib\/filefield\/filefield.css","\/profiles\/drupal_commons\/modules\/contrib\/views_slideshow\/contrib\/views_slideshow_singleframe\/views_slideshow.css","\/sites\/default\/files\/geshifilter-languages.css","\/sites\/all\/modules\/contrib\/geshifilter\/geshifilter.css","\/sites\/all\/modules\/contrib\/panels\/css\/panels.css","\/sites\/all\/modules\/contrib\/tableofcontents\/tableofcontents.css","\/sites\/all\/modules\/custom\/twitter_apps\/twitter_apps.css","\/sites\/all\/modules\/overriden\/mollom\/mollom.css","\/sites\/all\/modules\/contrib\/extlink\/extlink.css","\/profiles\/drupal_commons\/modules\/contrib\/cck\/modules\/fieldgroup\/fieldgroup.css","\/profiles\/drupal_commons\/modules\/contrib\/views\/css\/views.css","\/sites\/all\/modules\/custom\/twitter_autosuggest\/jquery-autocomplete\/jquery.autocomplete.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-fonts.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-defaults.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-style.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-admin-addts.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-homepage.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-menus.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-apidoc.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-notices.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-forms.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-discussions.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-notifications.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-blog.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-pager.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-login.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-tfw.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-issues.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-faq.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-case-studies.css","\/sites\/all\/themes\/twitter_commons\/css\/custom\/twttr-platform-objects.css","\/sites\/all\/themes\/twitter_commons\/css\/overridden\/search.css","\/sites\/all\/themes\/twitter_commons\/css\/overridden\/system.css","\/sites\/all\/themes\/twitter_commons\/css\/overridden\/system-menus.css","\/sites\/all\/themes\/twitter_commons\/css\/overridden\/book.css","\/sites\/all\/themes\/twitter_commons\/css\/overridden\/comment.css","\/sites\/all\/themes\/twitter_commons\/css\/overridden\/tableofcontents.css"],"scripts":["\/misc\/jquery.js","\/misc\/drupal.js","\/profiles\/drupal_commons\/modules\/contrib\/ajax_load\/ajax_load.js","\/profiles\/drupal_commons\/modules\/contrib\/views_slideshow\/js\/jquery.cycle.all.min.js","\/profiles\/drupal_commons\/modules\/contrib\/views_slideshow\/contrib\/views_slideshow_singleframe\/views_slideshow.js","\/sites\/all\/modules\/contrib\/google_analytics\/googleanalytics.js","\/sites\/all\/modules\/contrib\/panels\/js\/panels.js","\/sites\/all\/modules\/contrib\/tableofcontents\/jquery.scrollTo-min.js","\/sites\/all\/modules\/contrib\/tableofcontents\/jquery.localscroll-min.js","\/sites\/all\/modules\/contrib\/tableofcontents\/tableofcontents.js","\/sites\/all\/modules\/overriden\/mollom\/mollom.js","\/sites\/all\/modules\/contrib\/extlink\/extlink.js","\/sites\/all\/modules\/custom\/twitter_autosuggest\/jquery-autocomplete\/jquery.autocomplete.js","\/sites\/all\/modules\/custom\/twitter_autosuggest\/twitter_autosuggest.js","\/sites\/all\/themes\/twitter_commons\/js\/supposition.js","\/sites\/all\/themes\/twitter_commons\/js\/superfish.js","\/sites\/all\/themes\/twitter_commons\/js\/twitter-commons-script.js","\/sites\/all\/themes\/twitter_commons\/js\/hashchange.js"]}});
+//--><!]]>
+</script>
+<script>window["_GOOG_TRANS_EXT_VER"] = "1";</script></head>
+<body id="page-node" class="not-front not-logged-in node-type-platform-object showing-tabs" data-twttr-rendered="true">
+  <div id="page">
+    <a href="https://dev.twitter.com/docs/platform-objects/entities#content-main" class="skip">Skip to Main Content Area</a>
+
+
+    <div id="header-outer">
+      <div id="header">
+        <a href="https://dev.twitter.com/" id="logo" title="Home">
+        <span class="twitter-bird"></span> Developers        </a>
+<ul id="title-nav" class="sf-js-enabled"><li class="expanded first"><a href="https://dev.twitter.com/status" title="">API Health</a><ul class="menu" style="visibility: hidden;"><li class="leaf first"><a href="https://dev.twitter.com/status" title="">API Status</a></li>
+<li class="leaf last"><a href="https://dev.twitter.com/issues" title="">API Issues</a></li>
+</ul></li>
+<li class="leaf"><a href="https://dev.twitter.com/blog" title="">Blog</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/discussions" title="">Discussions</a></li>
+<li class="expanded"><a href="https://dev.twitter.com/docs" title="">Documentation</a><ul class="menu" style="visibility: hidden;"><li class="leaf first"><a href="https://dev.twitter.com/docs" title="">Overview</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/docs/cards" title="Twitter Cards">Twitter Cards</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/docs/api/1.1" title="">REST API</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/docs/api/streaming" title="The Streaming APIs">Streaming API</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/docs/twitter-for-websites" title="">Twitter for Websites</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/docs/platform-objects" title="">Field Guide</a></li>
+<li class="leaf last"><a href="https://dev.twitter.com/docs/recent" title="">Recently updated</a></li>
+</ul></li>
+<li class="leaf last"><a href="https://dev.twitter.com/user/login?destination=node%2F7289" title="">Sign in</a></li>
+</ul><form action="./Twitter-Entities_files/Twitter-Entities.htm" accept-charset="UTF-8" method="post" id="search-theme-form">
+<input id="search-q" name="search_theme_form" type="text" maxlength="128" size="15" value="Search" title="Enter search terms" placeholder="Search">
+  <input id="search-submit" name="op" type="submit" value="Search">
+<input type="hidden" name="form_build_id" id="form-2de08b31f51d9b34b1db92dec11d5de1" value="form-2de08b31f51d9b34b1db92dec11d5de1">
+<input type="hidden" name="form_id" id="edit-search-theme-form" value="search_theme_form">
+
+</form>
+      </div>    </div>
+    <div id="content-outer">
+      <div id="breadcrumbs">
+<div class="breadcrumb"><a href="https://dev.twitter.com/">Home</a> → <a href="https://dev.twitter.com/docs">Documentation</a> → <a href="https://dev.twitter.com/docs/platform-objects">Platform Objects</a><div><iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="./Twitter-Entities_files/tweet_button.1397165098.htm" class="twitter-share-button twitter-tweet-button twitter-count-none" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 59px; height: 20px;"></iframe><span class="addt-info"></span></div></div>      </div>
+
+      <h1 id="title">Entities</h1>
+
+<ul class="tabs primary">
+<li class="active"><a href="./Twitter-Entities_files/Twitter-Entities.htm" class="active">View</a></li>
+<li><a href="https://dev.twitter.com/node/7289/backlinks">What links here</a></li>
+</ul>
+      <div id="content-inner">
+        <div id="content-main">
+
+      <div class="doc-version">
+      <a title="Resources for API v1" class="version-pill version_one" href="https://dev.twitter.com/docs/api/1">API version 1</a><a title="Resources for API v1.1" class="version-pill version_one_one" href="https://dev.twitter.com/docs/api/1.1">API version 1.1</a><br>
+    </div>
+  
+  <div class="doc-updated">
+    Updated on Mon, 2013-12-16 16:46  </div>
+
+<div>
+  <p>Entities provide metadata and additional contextual information about content posted on Twitter. Entities are never divorced from the content they describe. In API v1.1, entities will be returned wherever <a href="https://dev.twitter.com/docs/platform-objects/tweets">Tweets</a> are found in the API. Entities are instrumental in <a href="https://dev.twitter.com/docs/tco-url-wrapper">resolving URLs</a>.</p>
+
+<p>Read <a href="https://dev.twitter.com/docs/entities">Entities in Twitter Objects</a> for a more comprehensive guide to how entities are used throughout Twitter objects.</p>
+
+<h3>Field Guide</h3>
+<p>Consumers of Entities should tolerate the addition of new fields and variance in ordering of fields with ease. Not all fields appear in all contexts. It is generally safe to consider a nulled field, an empty set, and the absence of a field as the same thing.</p>
+
+<table class="platform-object">
+  <thead>
+    <tr>
+      <th width="100px">
+        Field
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        hashtags
+      </th>
+      <td>Array of <a href="https://dev.twitter.com/docs/platform-objects/entities#obj-hashtags">Object</a></td>
+      <td>
+        Represents hashtags which have been parsed out of the Tweet text.
+        <p>Example: <br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"hashtags"</span><span class="sy0">:</span><span class="br0">[</span><span class="br0">{</span><span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">32</span><span class="sy0">,</span><span class="nu0">36</span><span class="br0">]</span><span class="sy0">,</span><span class="st0">"text"</span><span class="sy0">:</span><span class="st0">"lol"</span><span class="br0">}</span><span class="br0">]</span></pre></div></div>
+<p></p>
+
+      </td>
+    </tr>
+    <tr>
+      <th>
+        media
+      </th>
+      <td>Array of <a href="https://dev.twitter.com/docs/platform-objects/entities#obj-media">Object</a></td>
+      <td>
+        Represents media elements uploaded with the Tweet.
+
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"media"</span><span class="sy0">:</span><span class="br0">[</span><span class="br0">{</span><span class="st0">"type"</span><span class="sy0">:</span><span class="st0">"photo"</span><span class="sy0">,</span> <span class="st0">"sizes"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"thumb"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">150</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"crop"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">150</span><span class="br0">}</span><span class="sy0">,</span> <span class="st0">"large"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span><span class="sy0">,</span> <span class="st0">"medium"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span><span class="sy0">,</span> <span class="st0">"small"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span><span class="br0">}</span><span class="sy0">,</span> <span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">15</span><span class="sy0">,</span><span class="nu0">35</span><span class="br0">]</span><span class="sy0">,</span> <span class="st0">"url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>t.co<span class="es0">\/</span>rJC5Pxsu"</span><span class="sy0">,</span> <span class="st0">"media_url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>p.twimg.com<span class="es0">\/</span>AZVLmp-CIAAbkyy.jpg"</span><span class="sy0">,</span> <span class="st0">"display_url"</span><span class="sy0">:</span><span class="st0">"pic.twitter.com<span class="es0">\/</span>rJC5Pxsu"</span><span class="sy0">,</span> <span class="st0">"id"</span><span class="sy0">:</span><span class="nu0">114080493040967680</span><span class="sy0">,</span> <span class="st0">"id_str"</span><span class="sy0">:</span><span class="st0">"114080493040967680"</span><span class="sy0">,</span> <span class="st0">"expanded_url"</span><span class="sy0">:</span> <span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>twitter.com<span class="es0">\/</span>yunorno<span class="es0">\/</span>status<span class="es0">\/</span>114080493036773378<span class="es0">\/</span>photo<span class="es0">\/</span>1"</span><span class="sy0">,</span> <span class="st0">"media_url_https"</span><span class="sy0">:</span><span class="st0">"https:<span class="es0">\/</span><span class="es0">\/</span>p.twimg.com<span class="es0">\/</span>AZVLmp-CIAAbkyy.jpg"</span><span class="br0">}</span><span class="br0">]</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        urls
+      </th>
+      <td>Array of <a href="https://dev.twitter.com/docs/platform-objects/entities#obj-url">Object</a></td>
+      <td>
+        Represents URLs included in the text of a Tweet or within textual fields of a <a href="https://dev.twitter.com/docs/platform-objects/users">user object</a>.
+
+        <p>Tweet Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"urls"</span><span class="sy0">:</span><span class="br0">[</span><span class="br0">{</span><span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">32</span><span class="sy0">,</span><span class="nu0">52</span><span class="br0">]</span><span class="sy0">,</span> <span class="st0">"url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>t.co<span class="es0">\/</span>IOwBrTZR"</span><span class="sy0">,</span> <span class="st0">"display_url"</span><span class="sy0">:</span><span class="st0">"youtube.com<span class="es0">\/</span>watch?v=oHg5SJ<span class="es0">\u</span>2026"</span><span class="sy0">,</span> <span class="st0">"expanded_url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>www.youtube.com<span class="es0">\/</span>watch?v=oHg5SJYRHA0"</span><span class="br0">}</span><span class="br0">]</span></pre></div></div>
+        <p></p>
+        <p>User Example:<br>
+          </p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1">          <span class="st0">"urls"</span><span class="sy0">:</span><span class="br0">[</span><span class="br0">{</span><span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">32</span><span class="sy0">,</span><span class="nu0">52</span><span class="br0">]</span><span class="sy0">,</span> <span class="st0">"url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>t.co<span class="es0">\/</span>IOwBrTZR"</span><span class="sy0">,</span> <span class="st0">"display_url"</span><span class="sy0">:</span><span class="st0">"youtube.com<span class="es0">\/</span>watch?v=oHg5SJ<span class="es0">\u</span>2026"</span><span class="sy0">,</span> <span class="st0">"expanded_url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>www.youtube.com<span class="es0">\/</span>watch?v=oHg5SJYRHA0"</span><span class="br0">}</span><span class="br0">]</span>
+&nbsp;</pre></div></div>
+
+      </td>
+    </tr>
+    <tr>
+      <th>
+        user_mentions
+      </th>
+      <td>Array of <a href="https://dev.twitter.com/docs/platform-objects/entities#obj-usermention">Object</a></td>
+      <td>
+        Represents other Twitter users mentioned in the text of the Tweet.
+
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"user_mentions"</span><span class="sy0">:</span><span class="br0">[</span><span class="br0">{</span><span class="st0">"name"</span><span class="sy0">:</span><span class="st0">"Twitter API"</span><span class="sy0">,</span> <span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">4</span><span class="sy0">,</span><span class="nu0">15</span><span class="br0">]</span><span class="sy0">,</span> <span class="st0">"screen_name"</span><span class="sy0">:</span><span class="st0">"twitterapi"</span><span class="sy0">,</span> <span class="st0">"id"</span><span class="sy0">:</span><span class="nu0">6253282</span><span class="sy0">,</span> <span class="st0">"id_str"</span><span class="sy0">:</span><span class="st0">"6253282"</span><span class="br0">}</span><span class="br0">]</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="obj-hashtags">Hashtags</h3>
+<table class="platform-object">
+
+  <thead>
+    <tr>
+      <th width="100px">
+        Field
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        indices
+      </th>
+      <td>Array of Int</td>
+      <td>An array of integers indicating the offsets within the Tweet text where the hashtag begins and ends.  The first integer represents the location of the # character in the Tweet text string.  The second integer represents the location of the first character after the hashtag.  Therefore the difference between the two numbers will be the length of the hashtag name plus one (for the '#' character).
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">32</span><span class="sy0">,</span><span class="nu0">36</span><span class="br0">]</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        text
+      </th>
+      <td>String</td>
+      <td>Name of the hashtag, minus the leading '#' character.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"text"</span><span class="sy0">:</span><span class="st0">"lol"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="obj-media">Media</h3>
+<table class="platform-object">
+
+  <thead>
+    <tr>
+      <th width="100px">
+        Field
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        display_url
+      </th>
+      <td>String</td>
+      <td>URL of the media to display to clients.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"display_url"</span><span class="sy0">:</span><span class="st0">"pic.twitter.com<span class="es0">\/</span>rJC5Pxsu"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        expanded_url
+      </th>
+      <td>String</td>
+      <td>An expanded version of display_url.  Links to the media display page.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"expanded_url"</span><span class="sy0">:</span> <span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>twitter.com<span class="es0">\/</span>yunorno<span class="es0">\/</span>status<span class="es0">\/</span>114080493036773378<span class="es0">\/</span>photo<span class="es0">\/</span>1"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        id
+      </th>
+      <td>Int64</td>
+      <td>ID of the media expressed as a 64-bit integer.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"id"</span><span class="sy0">:</span><span class="nu0">114080493040967680</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        id_str
+      </th>
+      <td>String</td>
+      <td>ID of the media expressed as a string.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"id_str"</span><span class="sy0">:</span><span class="st0">"114080493040967680"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        indices
+      </th>
+      <td>Array of Int</td>
+      <td>An array of integers indicating the offsets within the Tweet text where the URL begins and ends.  The first integer represents the location of the first character of the URL in the Tweet text.  The second integer represents the location of the first non-URL character occurring after the URL (or the end of the string if the URL is the last part of the Tweet text).
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">15</span><span class="sy0">,</span><span class="nu0">35</span><span class="br0">]</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        media_url
+      </th>
+      <td>String</td>
+      <td>An http:// URL pointing directly to the uploaded media file.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"media_url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>p.twimg.com<span class="es0">\/</span>AZVLmp-CIAAbkyy.jpg"</span></pre></div></div>
+<p></p>
+<p>For media in direct messages, <tt>media_url</tt> is the same https URL as <tt>media_url_https</tt> and must be accessed via an authenticated twitter.com session or by signing a request with the user's access token using OAuth 1.0A. You can see more details on the <a href="https://dev.twitter.com/docs/entities#dms">entities in DMs description</a>. It is not possible to directly embed these images in a web page.</p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        media_url_https
+      </th>
+      <td>String</td>
+      <td>An https:// URL pointing directly to the uploaded media file, for embedding on https pages.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"media_url_https"</span><span class="sy0">:</span><span class="st0">"https:<span class="es0">\/</span><span class="es0">\/</span>p.twimg.com<span class="es0">\/</span>AZVLmp-CIAAbkyy.jpg"</span></pre></div></div>
+<p></p>
+<p>
+For media in direct messages, <tt>media_url_https</tt> must be accessed via an authenticated twitter.com session or by signing a request with the user's access token using OAuth 1.0A. You can see more details on the <a href="https://dev.twitter.com/docs/entities#dms">entities in DMs description</a>. It is not possible to directly embed these images in a web page.
+</p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        sizes
+      </th>
+      <td><a href="https://dev.twitter.com/docs/platform-objects/entities#obj-sizes">Object</a></td>
+      <td>An object showing available sizes for the media file.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"sizes"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"thumb"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">150</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"crop"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">150</span><span class="br0">}</span><span class="sy0">,</span> <span class="st0">"large"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span><span class="sy0">,</span> <span class="st0">"medium"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span><span class="sy0">,</span> <span class="st0">"small"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span><span class="br0">}</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        source_status_id
+      </th>
+      <td><a href="https://dev.twitter.com/docs/platform-objects/entities#obj-sizes">Int64</a></td>
+      <td>For Tweets containing media that was originally associated with a different tweet, this ID points to the original Tweet.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"source_status_id"</span><span class="sy0">:</span> <span class="nu0">205282515685081088</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        source_status_id_str
+      </th>
+      <td><a href="https://dev.twitter.com/docs/platform-objects/entities#obj-sizes">Int64</a></td>
+      <td>For Tweets containing media that was originally associated with a different tweet, this string-based ID points to the original Tweet.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1">  <span class="st0">"source_status_id_str"</span><span class="sy0">:</span> <span class="st0">"205282515685081088"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        type
+      </th>
+      <td>String</td>
+      <td>Type of uploaded media.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"type"</span><span class="sy0">:</span><span class="st0">"photo"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        url
+      </th>
+      <td>String</td>
+      <td>Wrapped URL for the media link.  This corresponds with the URL embedded directly into the raw Tweet text, and the values for the <tt>indices</tt> parameter.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>t.co<span class="es0">\/</span>rJC5Pxsu"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="obj-size">Size</h3>
+<table class="platform-object">
+
+  <thead>
+    <tr>
+      <th width="100px">
+        Field
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        h
+      </th>
+      <td>Int</td>
+      <td>Height in pixels of this size.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">150</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        resize
+      </th>
+      <td>String</td>
+      <td>Resizing method used to obtain this size.  A value of <tt>fit</tt> means that the media was resized to fit one dimension, keeping its native aspect ratio.  A value of <tt>crop</tt> means that the media was cropped in order to fit a specific resolution.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"crop"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        w
+      </th>
+      <td>Int</td>
+      <td>Width in pixels of this size.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">150</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="obj-sizes">Sizes</h3>
+<table class="platform-object">
+
+  <thead>
+    <tr>
+      <th width="100px">
+        Field
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        thumb
+      </th>
+      <td><a href="https://dev.twitter.com/docs/platform-objects/entities#obj-size">Object</a></td>
+      <td>Information for a thumbnail-sized version of the media.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"thumb"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">150</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"crop"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">150</span><span class="br0">}</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        large
+      </th>
+      <td><a href="https://dev.twitter.com/docs/platform-objects/entities#obj-size">Object</a></td>
+      <td>Information for a large-sized version of the media.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"large"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        medium
+      </th>
+      <td><a href="https://dev.twitter.com/docs/platform-objects/entities#obj-size">Object</a></td>
+      <td>Information for a medium-sized version of the media.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"medium"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        small
+      </th>
+      <td><a href="https://dev.twitter.com/docs/platform-objects/entities#obj-size">Object</a></td>
+      <td>Information for a small-sized version of the media.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"small"</span><span class="sy0">:</span><span class="br0">{</span><span class="st0">"h"</span><span class="sy0">:</span><span class="nu0">238</span><span class="sy0">,</span> <span class="st0">"resize"</span><span class="sy0">:</span><span class="st0">"fit"</span><span class="sy0">,</span> <span class="st0">"w"</span><span class="sy0">:</span><span class="nu0">226</span><span class="br0">}</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="obj-url">URL</h3>
+<table class="platform-object">
+
+  <thead>
+    <tr>
+      <th width="100px">
+        Field
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        display_url
+      </th>
+      <td>String</td>
+      <td>Version of the URL to display to clients.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"display_url"</span><span class="sy0">:</span><span class="st0">"youtube.com<span class="es0">\/</span>watch?v=oHg5SJ<span class="es0">\u</span>2026"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        expanded_url
+      </th>
+      <td>String</td>
+      <td>Expanded version of <tt>display_url</tt>.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"expanded_url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>www.youtube.com<span class="es0">\/</span>watch?v=oHg5SJYRHA0"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        indices
+      </th>
+      <td>Array of Int</td>
+      <td>An array of integers representing offsets within the Tweet text where the URL begins and ends.  The first integer represents the location of the first character of the URL in the Tweet text.  The second integer represents the location of the first non-URL character after the end of the URL.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">32</span><span class="sy0">,</span><span class="nu0">52</span><span class="br0">]</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        url
+      </th>
+      <td>String</td>
+      <td>Wrapped URL, corresponding to the value embedded directly into the raw Tweet text, and the values for the
+<div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1">indices</pre></div></div>
+ parameter.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"url"</span><span class="sy0">:</span><span class="st0">"http:<span class="es0">\/</span><span class="es0">\/</span>t.co<span class="es0">\/</span>IOwBrTZR"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="obj-usermention">User Mention</h3>
+<table class="platform-object">
+  <thead>
+    <tr>
+      <th width="100px">
+        Field
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        id
+      </th>
+      <td>Int64</td>
+      <td>ID of the mentioned user, as an integer.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"id"</span><span class="sy0">:</span><span class="nu0">6253282</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        id_str
+      </th>
+      <td>String</td>
+      <td>If of the mentioned user, as a string.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"id_str"</span><span class="sy0">:</span><span class="st0">"6253282"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        indices
+      </th>
+      <td>Array of Int</td>
+      <td>An array of integers representing the offsets within the Tweet text where the user reference begins and ends.  The first integer represents the location of the '@' character of the user mention.  The second integer represents the location of the first non-screenname character following the user mention.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"indices"</span><span class="sy0">:</span><span class="br0">[</span><span class="nu0">4</span><span class="sy0">,</span><span class="nu0">15</span><span class="br0">]</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        name
+      </th>
+      <td>String</td>
+      <td>Display name of the referenced user.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"name"</span><span class="sy0">:</span><span class="st0">"Twitter API"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        screen_name
+      </th>
+      <td>String</td>
+      <td>Screen name of the referenced user.
+        <p>Example:<br>
+</p><div class="geshifilter"><div class="javascript geshifilter-javascript"><pre class="de1"><span class="st0">"screen_name"</span><span class="sy0">:</span><span class="st0">"twitterapi"</span></pre></div></div>
+<p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+        </div>
+        <div id="sidebar-last">
+  <div class="block">
+  <h2>Natural habitat</h2>
+  <p>Entities are most often found within <a href="https://dev.twitter.com/docs/platform-objects/tweets">Tweets</a>.</p>
+<p><img src="./Twitter-Entities_files/yellow_flycatcher.jpg" width="235" height="277" alt="" title=""></p></div>      <div class="block">
+      <h2>Tags</h2>
+  <div class="view">
+    <div class="content">
+<div class="item-list">
+    <ul>
+          <li class="views-row views-row-1 views-row-odd views-row-first">  <a href="https://dev.twitter.com/tags/tweets">Tweets</a>  (29)</li>
+          <li class="views-row views-row-2 views-row-even">  <a href="https://dev.twitter.com/tags/entities">Entities</a>  (35)</li>
+          <li class="views-row views-row-3 views-row-odd">  <a href="https://dev.twitter.com/tags/mentions">Mentions</a>  (20)</li>
+          <li class="views-row views-row-4 views-row-even">  <a href="https://dev.twitter.com/tags/tco">t.co</a>  (43)</li>
+          <li class="views-row views-row-5 views-row-odd">  <a href="https://dev.twitter.com/tags/field-descriptions">field descriptions</a>  (9)</li>
+          <li class="views-row views-row-6 views-row-even">  <a href="https://dev.twitter.com/tags/hashtags">hashtags</a>  (4)</li>
+          <li class="views-row views-row-7 views-row-odd">  <a href="https://dev.twitter.com/tags/finding-media">finding media</a>  (4)</li>
+          <li class="views-row views-row-8 views-row-even views-row-last">  <a href="https://dev.twitter.com/tags/finding-links">finding links</a>  (2)</li>
+      </ul>
+</div>    </div>
+  </div>     </div>        </div>
+      </div>    </div>
+    <div id="footer-outer">
+      <div id="footer">
+  <iframe id="twitter-widget-1" scrolling="no" frameborder="0" allowtransparency="true" src="./Twitter-Entities_files/follow_button.1397165098.htm" class="twitter-follow-button twitter-follow-button" title="Twitter Follow Button" data-twttr-rendered="true" style="width: 129px; height: 20px;"></iframe><ul class="menu"><li class="leaf first"><a href="https://dev.twitter.com/terms/api-terms" title="Developer Rules of the Road">API Terms</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/status" title="Twitter API Status">API Status</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/blog" title="Twitter Developer blog">Blog</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/discussions" title="Twitter Development discussions">Discussions</a></li>
+<li class="leaf"><a href="https://dev.twitter.com/docs" title="Twitter development documentation">Documentation</a></li>
+<li class="leaf last"><a href="http://www.acquia.com/" title="Acquia" class="ext" target="_blank">A Drupal community site supported by Acquia</a><span class="ext"></span></li>
+</ul>      </div>    </div>  </div><script type="text/javascript">
+  var _sf_async_config=Drupal.settings.chartbeat;
+  (function() {
+    function loadChartbeat() {
+      window._sf_endpt = (new Date()).getTime();
+      var e = document.createElement('script');
+      e.setAttribute('language', 'javascript');
+      e.setAttribute('type', 'text/javascript');
+      e.setAttribute('src',
+        (("https:" == document.location.protocol) ? "https://a248.e.akamai.net/chartbeat.download.akamai.com/102508/" : "http://static.chartbeat.com/") +
+        "js/chartbeat.js");
+      document.body.appendChild(e);
+    };
+    var oldonload = window.onload;
+    window.onload = (typeof window.onload != 'function') ?
+      loadChartbeat : function() { oldonload(); loadChartbeat(); };
+  })();
+</script><script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-30775-16"]);_gaq.push(['_setCustomVar', 1, "roles", "anonymous user", 2]);_gaq.push(['_setCustomVar', 2, "type", "platform_object", 3]);_gaq.push(['_setCustomVar', 3, "category", "Tweets", 3]);var current_domain = document.domain;
+var current_url = document.URL;
+if (current_domain == 'dev.twitter.com' && !current_url.match(/\/(apps|admin)/)) { _gaq.push(['_trackPageLoadTime']); }_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+
+<script language="javascript" type="text/javascript" src="./Twitter-Entities_files/chartbeat.js"></script></body></html>
