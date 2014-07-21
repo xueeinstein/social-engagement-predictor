@@ -1,6 +1,8 @@
 import json
 import collections
 import pymongo
+import datetime
+import time
 # import matplotlib.pyplot as plt 
 
 def read_the_dataset(the_dataset_file, limitation):
@@ -23,20 +25,26 @@ def read_the_dataset(the_dataset_file, limitation):
                 break
             i = i + 1
             line_array = line.strip().split(',')
+            rating = int(line_array[2])
+            if rating > 10:
+                continue
             user_id = int(line_array[0])
             item_id = int(line_array[1])
-            rating = int(line_array[2])
             scrapint_time = int(line_array[3])
             tweet = ','.join(line_array[4:]) # The json format also contains commas
             json_obj = json.loads(tweet) # Convert the tweet data string to a JSON object
             # Use the json_obj to easy access the tweet data
             # e.g. the tweet id: json_obj['id']
             # e.g. the retweet count: json_obj['retweet_count']
+            
+            # filter tweet which rating > 10
             json_obj['user_id'] = user_id
             json_obj['item_id'] = item_id
             json_obj['rating'] = rating
             json_obj['scrapint_time'] = scrapint_time
             json_obj['engagement'] = json_obj['retweet_count'] + json_obj['favorite_count']
+            tmp = datetime.datetime.strptime(json_obj['created_at'], "%a %b %d %H:%M:%S +0000 %Y")
+            json_obj['created_at_int'] = int(totimestamp(tmp))
             recsys.insert(json_obj)
    
 def get_users_set(tweets_list):
@@ -76,14 +84,17 @@ def get_time_order_users_tweets(grouped_tweets, tweets_list):
             # if type(i) == type([]) and len(i) > 1:
                 # print "user_id: ", key, "items", i
         # group by scrapint_time
-        
+
+def totimestamp(dt, epoch=datetime.datetime(1970,1,1)):
+    td = dt - epoch
+    # return td.total_seconds()
+    return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) / 1e6 
 
 if __name__ == "__main__":
     filename = raw_input("Please input the filename: ")
     if filename == '':
         filename = 'read-test.dat'
     slices = [(i*10000, (i+1)*10000) for i in range(18)]
-    # print slices
     for i in slices:
         read_the_dataset(filename, i)
         print "read limitation:", i, "OK!"
