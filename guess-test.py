@@ -26,7 +26,7 @@ def read_the_dataset(the_dataset_file, limitation):
             user_id = int(line_array[0])
             item_id = int(line_array[1])
             rating = int(line_array[2])
-            scraping_time = line_array[3]
+            scrapint_time = int(line_array[3])
             tweet = ','.join(line_array[4:]) # The json format also contains commas
             json_obj = json.loads(tweet) # Convert the tweet data string to a JSON object
             # Use the json_obj to easy access the tweet data
@@ -35,7 +35,8 @@ def read_the_dataset(the_dataset_file, limitation):
             json_obj['user_id'] = user_id
             json_obj['item_id'] = item_id
             json_obj['rating'] = rating
-            json_obj['scraping_time'] = scraping_time
+            json_obj['scrapint_time'] = scrapint_time
+            json_obj['engagement'] = json_obj['retweet_count'] + json_obj['favorite_count']
             recsys.insert(json_obj)
    
 def get_users_set(tweets_list):
