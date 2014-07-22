@@ -1,36 +1,4 @@
 /**
- * do mapreduce to group MovieTweeting Dataset by tweet_id
- * @return recsys_grouped [collection] in format:
- *  "_id":tweet_id , "value": {"_id":[obj1, obj2, ...]}
- */
-var mapFunction_by_tweet_id = function() {
-    emit(this.id, {
-        count: 1,
-        _id: this._id
-    });
-};
-
-var reduceFunction_by_tweet_id = function(key, values) {
-    var groups = {
-        count: 0,
-        tweets: []
-    };
-    values.forEach(function(value) {
-        groups.count += value.count;
-        groups.tweets.push(value._id);
-    });
-    return groups;
-};
-
-db.recsys.mapReduce(mapFunction_by_tweet_id,
-    reduceFunction_by_tweet_id, {
-        out: {
-            merge: "recsys_grouped"
-        },
-        jsMode: true
-    })
-
-/**
  * do mapreduce to group MovieTweeting Dataset by {user_id, item_id}
  * @return recsys_grouped [collection]
  */
@@ -43,6 +11,7 @@ var mapFunction_by_useritem = function() {
         _id: this._id,
         engagement: this.engagement,
         tweet_id: this.id,
+        created_time: this.created_at_int,
         scrapint_time: this.scrapint_time
     });
 };
@@ -52,23 +21,26 @@ var reduceFunction_by_useritem = function(key, values) {
         count: 0,
         tweets: []
     };
-    values.forEach(function(value) {
-        groups.count += value.count;
+    for (v in values){
+        groups.count += v.count;
         groups.tweets.push({
-            "_id": value._id,
-            "engagement": value.engagement,
-            "tweet_id": value.id,
-            "scrapint_time": value.scrapint_time
-        })
-    });
+            "_id": v._id,
+            "engagement": v.engagement,
+            "tweet_id": v.tweet_id,
+            "created_time": v.created_time,
+            "scrapint_time": v.scrapint_time
+        });
+    }
     return groups;
 };
 
-db.recsys.mapReduce(mapFunction_by_useritem,
+var command = db.recsys.mapReduce(mapFunction_by_useritem,
     reduceFunction_by_useritem, {
         out: {
             merge: "recsys_grouped"
         },
         jsMode: true
-    })
+    });
+
+printjson(command);
 
