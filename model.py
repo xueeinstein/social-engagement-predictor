@@ -100,9 +100,12 @@ def group_tweets_byUser():
     return group_byUser
 
 def get_tweet_streams(group_byUser):
-    """ get tweet streams from different user"""
+    """ 
+    get tweet streams from different user
+    @group_byUser, the mongodb cursor
+    """
     streams = dict()
-    tweet_nodes = dict()
+    user_path = dict()
     graph_db = neo4j.GraphDatabaseService("http://localhost:7474/db/data/")
     for user in group_byUser.find(timeout = False):
         user_id = int(user['_id'])
@@ -112,18 +115,94 @@ def get_tweet_streams(group_byUser):
             tweet['_id'] = str(tweet['_id'])
             tweet['name'] = str(user_id) + '-' + str(index)
             tmp_list.append(tweet)
-        # create user's tweet stream, representing in a path
-        tmp_list = add_rel(tmp_list, 'next')
-        path = neo4j.Path(*tmp_list)
-        res = path.create(graph_db)
 
-        # retrieve the node ID
-        nodesID = retrieve_IDs(res)
-        tweet_nodes[user_id] = nodesID
+        streams[user_id] = [int(i['item_id']) for i in streams[user_id]]
+        # create user's tweet stream, representing in a path
+        nodesID = add_path(tmp_list, 'next')
+        user_path[user_id] = nodesID
 
         # add labels
         add_labels(nodesID, 'tweet')
-    return streams, tweet_nodes
+    return streams, user_path
+
+def get_movies_set(movies_file_name):
+    """ from all tweets collection, get movies set """
+    # get all avaliable movie data
+    movies_dict = dict()
+    movie_tags = set()
+    with open(movies_file_name, 'r') as movies_file:
+        for line in movies_file:
+            tmp_list = line.split('::')
+            movie = dict()
+            item_id = int(tmp_list[0])
+            movie['movie_name'] = tmp_list[1][:-7]
+            movie['movie_year'] = tmp_list[1][-5:-1]
+            movie['movie_categories'] = tmp_list[2]
+            for tag in tmp_list[2].split('|'):
+                movie_tags.add(tag)
+            movies_dict[item_id] = movie
+
+    # filter and get the movie in traning dataset
+    client = pymongo.MongoClient()
+    db = client['test']
+    recsys = db.recsys
+    for tweet in recsys.find(timeout = False):
+        item_id = tweet['item_id'] 
+        if item_id in movies_dict.keys():
+            movies_dict[item_id]['exist'] = 1
+        else:
+            # movies_dict[item_id] = {'movie_name': '', 'movie_year': '', 'movie_categories': ''}
+            raise
+    for i in movies_dict.keys():
+        if movies_dict[i]['exist'] == 1:
+            del movies_dict[i]['exist']
+        else:
+            del movies_dict[i]
+
+    # save movies & movie_tags nodes in neo4j DB
+    graph_db = neo4j.GraphDatabaseService("http://localhost:7474/db/data/")
+    movie_tags_dictlist = [{'cate_name': i} for i in list(movie_tags)] 
+    del movie_tags
+    movie_tags_IDs = add_nodes(movie_tags_dictlist, 'cate_name', graph_db, 'category')
+    del movie_tags_dictlist
+
+    movies_dictlist = [{'item_id': i, 'movie_name': j['movie_name'], 'movie_year': j['movie_year'],\
+        'movie_categories': j['movie_categories']} for i, j in movies_dict.items()]
+    del movies_dict
+    movie_IDs = add_nodes(movies_dictlist, 'item_id', graph_db, 'movie')
+    # save move & category rels
+    get_movie_tags_rel(movies_dictlist, movie_tags_IDs, movie_IDs)
+    del movies_dictlist
+
+    return movie_IDs, movie_tags_IDs
+
+def get_tweet_movie_rel(streams, user_path, movie_IDs):
+    """ get non-retweeted tweets and movie relationship """
+    graph_db = neo4j.GraphDatabaseService()
+    for user_id in streams:
+        for index, item_id in enumerate(streams[user_id]):
+            tweet_node_instance = neo4j.Node("http://localhost:7474/db/data/node/"+\
+                str(user_path[user_id][index]))
+            movie_node_instance = neo4j.Node("http://localhost:7474/db/data/node/"+\
+                str(movie_IDs[item_id]))
+            graph_db.create((tweet_node_instance, 'rated', movie_node_instance))
+
+def get_movie_tags_rel(movies, movie_tags_IDs, movie_IDs):
+    """ get move & category rel """
+    graph_db = neo4j.GraphDatabaseService()
+    for movie in movies:
+        item_id = movie['item_id']
+        movie_node_instance = neo4j.Node("http://localhost:7474/db/data/node/"+\
+            str(movie_IDs[item_id]))
+        movie_tags = movie['movie_categories'].split('|')
+        for tag in movie_tags:
+            cate_node_instance = neo4j.Node("http://localhost:7474/db/data/node/"+\
+                str(movie_tags_IDs[tag]))
+            graph_db.create(movie_node_instance, 'is', cate_node_instance)
+
+def get_retweet_rel():
+    """ get retweet rel from training dataset, we treat mentions are from source tweet """
+    pass
 
 def get_users_set(tweets_list):
     users_set = set()
@@ -169,14 +248,31 @@ def totimestamp(dt, epoch=datetime.datetime(1970,1,1)):
     # return td.total_seconds()
     return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) / 1e6 
 
-def add_rel(tlist, rel):
-    """ add relationship for tlist """
+def add_path(tlist, rel):
+    """ add path for tlist """
     tmp_list = []
     tmp_list.append(tlist[0])
     for i in tlist[1:]:
         tmp_list.append(rel)
         tmp_list.append(i)
-    return tmp_list
+    path = neo4j.Path(*tmp_list)
+    res = path.create(graph_db)
+    return retrieve_pathNodes_IDs(res)
+
+def add_nodes(nlist, prime_key, graph_db, *labels):
+    """ add nodes of every element of nlist """
+    res = dict()
+    query_res = graph_db.create(*nlist)
+    for key, val in enumerate(query_res):
+        val = val.split(' ')
+        node_ID = int(val[0][1:])
+        node_info = eval(val[1][:-1])
+        res[node_info[prime_key]] = node_ID
+
+    if labels != ():
+        nodes = [i for i in res.values()]
+        add_labels(nodes, *labels)
+    return res
 
 def add_labels(nodes, *labels):
     """ add labels to nodes """
@@ -185,7 +281,7 @@ def add_labels(nodes, *labels):
         node_instance = neo4j.Node("http://localhost:7474/db/data/node/" + str(node))
         node_instance.add_labels(*labels)
 
-def retrieve_IDs(res):
+def retrieve_pathNodes_IDs(res):
     """ according to path created result to retrieve nodes IDs """
     tmp_list = []
     if list(res) == []:
@@ -208,7 +304,6 @@ def retrieve_IDs(res):
 
     return tmp_list
 
-
 if __name__ == "__main__":
     # save training.dat into MongoDB
     # filename = raw_input("Please input the filename: ")
@@ -220,7 +315,7 @@ if __name__ == "__main__":
     #     print "read limitation:", i, "OK!"
 
     # test group tweets by user_id
-    group_byUser = group_tweets_byUser()
+    # group_byUser = group_tweets_byUser()
     # limit = 2
     # for i in group_byUser.find():
     #     print i, type(i), i['value']['count']
@@ -228,7 +323,7 @@ if __name__ == "__main__":
     #         break
     #     limit = limit -1
 
-    streams, tweet_nodes= get_tweet_streams(group_byUser)
+    # streams, user_path= get_tweet_streams(group_byUser)
     # limit = 3
     # for key, value in streams.items():
     #     print key, value, type(value[0]['_id']), str(value[0]['_id'])
@@ -239,13 +334,7 @@ if __name__ == "__main__":
     # f = open('out', 'w')
     # f.write(str(streams))
     # f.write("\n=========================\n")
-    # f.write(str(tweet_nodes))
+    # f.write(str(user_path))
     # f.close()
 
-    # read_the_dataset(filename, (0, 4))
-    # users_set = get_users_set(tweets_list)
-    # print users_set
-    # grouped_tweets = get_grouped_users_tweets(users_set, tweets_list)
-    # get_time_order_users_tweets(grouped_tweets, tweets_list)
-    # print grouped_tweets
-    
+    get_movies_set("movies.dat")    
