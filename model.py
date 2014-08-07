@@ -118,7 +118,7 @@ def get_tweet_streams(group_byUser):
 
         streams[user_id] = [int(i['item_id']) for i in streams[user_id]]
         # create user's tweet stream, representing in a path
-        nodesID = add_path(graph_db, tmp_list, 'next')
+        nodesID = add_path(tmp_list, 'next')
         user_path[user_id] = nodesID
 
         # add labels
@@ -248,7 +248,7 @@ def totimestamp(dt, epoch=datetime.datetime(1970,1,1)):
     # return td.total_seconds()
     return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) / 1e6 
 
-def add_path(graph_db, tlist, rel):
+def add_path(tlist, rel):
     """ add path for tlist """
     tmp_list = []
     tmp_list.append(tlist[0])
@@ -315,7 +315,7 @@ if __name__ == "__main__":
     #     print "read limitation:", i, "OK!"
 
     # test group tweets by user_id
-    group_byUser = group_tweets_byUser()
+    # group_byUser = group_tweets_byUser()
     # limit = 2
     # for i in group_byUser.find():
     #     print i, type(i), i['value']['count']
@@ -323,7 +323,7 @@ if __name__ == "__main__":
     #         break
     #     limit = limit -1
 
-    streams, user_path= get_tweet_streams(group_byUser)
+    # streams, user_path= get_tweet_streams(group_byUser)
     # limit = 3
     # for key, value in streams.items():
     #     print key, value, type(value[0]['_id']), str(value[0]['_id'])
@@ -331,5 +331,10 @@ if __name__ == "__main__":
     #         break
     #     limit = limit - 1
 
-    movie_IDs, movie_tags_IDs = get_movies_set("movies.dat")    
-    get_tweet_movie_rel(streams, user_path, movie_IDs)
+    # f = open('out', 'w')
+    # f.write(str(streams))
+    # f.write("\n=========================\n")
+    # f.write(str(user_path))
+    # f.close()
+
+    get_movies_set("movies.dat")    
