@@ -3,7 +3,7 @@ import pymongo
 import datetime
 import time
 from bson.code import Code
-from py2neo import neo4j, node
+from py2neo import neo4j, node, rel
 
 def read_the_training(the_dataset_file, limitation):
     """ read training.dat into MongoDB, in limitation """
@@ -100,29 +100,36 @@ def group_tweets_byUser():
     return group_byUser
 
 def get_tweet_streams(group_byUser):
-    """ 
-    get tweet streams from different user
-    @group_byUser, the mongodb cursor
+    """ from MongoDB, get every user tweet stream ordered by time
+    
+    Args:
+        group_byUser, the MongoDB cursor point to the collection of grouped_tweets
+    Returns:
+        streams, a dictionary with user_id as key, every tweet rated movie id
+    Raises:
+        None
     """
     streams = dict()
     user_path = dict()
-    graph_db = neo4j.GraphDatabaseService("http://localhost:7474/db/data/")
+    nodes_list = []
+    index = 0
     for user in group_byUser.find(timeout = False):
         user_id = int(user['_id'])
+        start_offset = index
         streams[user_id] = user['value']['tweets']
-        tmp_list = []
-        for index, tweet in enumerate(streams[user_id]):
+        for offset, tweet in enumerate(streams[user_id]):
             tweet['_id'] = str(tweet['_id'])
-            tweet['name'] = str(user_id) + '-' + str(index)
-            tmp_list.append(tweet)
+            tweet['name'] = str(user_id) + '-' + str(offset)
+            nodes_list.append(tweet)
+            index = index + 1
 
+        end_offset = index - 1
         streams[user_id] = [int(i['item_id']) for i in streams[user_id]]
         # create user's tweet stream, representing in a path
-        nodesID = add_path(tmp_list, 'next')
-        user_path[user_id] = nodesID
+        user_path[user_id] = {'start_offset': start_offset, 'end_offset': end_offset}
 
-        # add labels
-        add_labels(nodesID, 'tweet')
+    # using batch insertion to insert all nodes, rels, labels
+    nodesID = add_path(user_path, nodes_list, 'next', 5, 'tweet')
     return streams, user_path
 
 def get_movies_set(movies_file_name):
@@ -211,6 +218,16 @@ def get_users_set(tweets_list):
     return users_set
 
 def get_grouped_users_tweets(users_set, tweets_list):
+    """ group all the tweets by user id
+    
+    Args:
+        users_set, the set of all users in the training dataset
+        tweets_list, the tweets list, contains tweets json and user
+    Returns:
+        the dictionary of grouped tweets, user_id as key, user tweets list as value
+    Raises:
+        None
+    """
     grouped_users_tweets = {}
     # initial the dict of grouped_users_tweets
     for user in users_set:
@@ -248,16 +265,58 @@ def totimestamp(dt, epoch=datetime.datetime(1970,1,1)):
     # return td.total_seconds()
     return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) / 1e6 
 
-def add_path(tlist, rel):
-    """ add path for tlist """
-    tmp_list = []
-    tmp_list.append(tlist[0])
-    for i in tlist[1:]:
-        tmp_list.append(rel)
-        tmp_list.append(i)
-    path = neo4j.Path(*tmp_list)
-    res = path.create(graph_db)
-    return retrieve_pathNodes_IDs(res)
+def add_path(user_path, nodes_list, rel_str, div, *labels):
+    """ add path for tlist 
+
+    Args:
+        batch, the neo4j.WriteBatch class
+        user_path, the dictionary with user_id as key, {'start_offset':.., 'end_offset':..} as value
+        nodes_list, the tweets list of one user, every element is a property dictionary
+        rel, the relationship name
+        *labels, the labels(str) args
+    Returns:
+        None
+    Raises:
+        None
+    """
+    graph_db = neo4j.GraphDatabaseService("http://localhost:7474/db/data/")
+    total_users = len(user_path.keys())
+    sub_users_len = total_users / div
+
+    if total_users % div != 0:
+        div = div + 1
+
+    for i in range(div):
+        sub_users = user_path.keys()[i*sub_users_len : (i+1)*sub_users_len]
+        sub_nodes_list = nodes_list[user_path[sub_users[0]]['start_offset'] : \
+            user_path[sub_users[-1]]['end_offset']]
+        offset = user_path[sub_users[0]]['start_offset']
+        sub_users = [user_path[i] for i in sub_users]
+        batch = neo4j.WriteBatch(graph_db)
+        # add nodes into batch
+        for node_attr in sub_nodes_list:
+            batch.create(node(node_attr))
+        # add rels to generate path per user
+        for stream in sub_users:
+            for i in range(stream['start_offset']-offset, stream['end_offset']-offset):
+                batch.create(rel(i, rel_str, i+1))
+        # add labels for every nodes
+        for i in range(len(sub_nodes_list)):
+            batch.add_labels(i, *labels)
+
+        batch.submit()
+
+
+    # add nodes into batch
+    # for node_attr in nodes_list:
+    #     batch.create(node(node_attr))
+    # add rels to generate path per user
+    # for stream in user_path.values():
+    #     for i in range(stream['start_offset'], stream['end_offset']):
+    #         batch.create(rel(i, rel_str, i+1))
+    # add labels for every nodes
+    # for i in range(len(nodes_list)):
+    #     batch.add_labels(i, *labels)
 
 def add_nodes(nlist, prime_key, graph_db, *labels):
     """ add nodes of every element of nlist """
@@ -315,7 +374,7 @@ if __name__ == "__main__":
     #     print "read limitation:", i, "OK!"
 
     # test group tweets by user_id
-    # group_byUser = group_tweets_byUser()
+    group_byUser = group_tweets_byUser()
     # limit = 2
     # for i in group_byUser.find():
     #     print i, type(i), i['value']['count']
@@ -323,7 +382,7 @@ if __name__ == "__main__":
     #         break
     #     limit = limit -1
 
-    # streams, user_path= get_tweet_streams(group_byUser)
+    streams, user_path= get_tweet_streams(group_byUser)
     # limit = 3
     # for key, value in streams.items():
     #     print key, value, type(value[0]['_id']), str(value[0]['_id'])
@@ -337,4 +396,5 @@ if __name__ == "__main__":
     # f.write(str(user_path))
     # f.close()
 
-    get_movies_set("movies.dat")    
+    # get_movies_set("movies.dat")    
+    print '===================== END ====================='

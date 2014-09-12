@@ -20,7 +20,7 @@ def exportSubNodes(query_nodes, filename, hasHeader = False):
 				str(int(node_attr['favorite_count']))+','+str(int(node_attr['engagement']))+'\n'
 			nodes_file.write(line)
 		query_nodes.stream().close()
-
+		
 def getNodesSum(graph_db):
 	query = neo4j.CypherQuery(graph_db, "MATCH (n) RETURN COUNT(n)")
 	res = query.execute_one()
